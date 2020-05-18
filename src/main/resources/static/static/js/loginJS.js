@@ -1,14 +1,27 @@
-var base_url = "http://localhost:8080";
-function cambiar_login() {
-  document.querySelector('.cont_forms').className = "cont_forms cont_forms_active_login";  
-document.querySelector('.cont_form_login').style.display = "block";
-document.querySelector('.cont_form_sign_up').style.opacity = "0";               
+function basePath() {
+	var curWwwPath = window.document.location.href;
+	var pathName = window.document.location.pathname;
+	var pos = curWwwPath.indexOf(pathName);
+	var localhostPath = curWwwPath.substring(0, pos);
+	var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+	var basePath = localhostPath + projectName;
+	return basePath;
+}
 
-setTimeout(function(){  document.querySelector('.cont_form_login').style.opacity = "1"; },400);  
-  
-setTimeout(function(){    
-document.querySelector('.cont_form_sign_up').style.display = "none";
-},200);  
+var base_url = basePath();
+
+function cambiar_login() {
+	document.querySelector('.cont_forms').className = "cont_forms cont_forms_active_login";
+	document.querySelector('.cont_form_login').style.display = "block";
+	document.querySelector('.cont_form_sign_up').style.opacity = "0";
+
+	setTimeout(function () {
+		document.querySelector('.cont_form_login').style.opacity = "1";
+	}, 400);
+
+	setTimeout(function () {
+		document.querySelector('.cont_form_sign_up').style.display = "none";
+	}, 200);
   }
 
 function cambiar_sign_up(at) {
@@ -43,12 +56,12 @@ function loginSubmit(){
 	var username = $("#username").val();
 	var password = $("#password").val();
 	//判断
-	if(username.length === 0){
-		alert("你输入的用户名为空，请重新输入")
+	if(username.length === 0) {
+		alert("你输入的用户名为空，请重新输入");
 		return;
 	}
-	if(password.length == 0){
-		alert("你输入的密码为空，请重新输入")
+	if(password.length == 0) {
+		alert("你输入的密码为空，请重新输入");
 		return;
 	}
 	var json= {"username": username ,"password": password};
@@ -81,23 +94,23 @@ function loginSubmit(){
 		}
 	})
 }
-function signupSubmit(){
+function signupSubmit() {
 	var username = $("#usernameSignup").val();
 	var password = $("#passwordSignup").val();
 	var passwordAgain = $("#repasswordSignup").val();
-	var json = {"username":username,"password":password,"passwordAgain":passwordAgain}
+	var json = {"username": username, "password": password, "passwordAgain": passwordAgain};
 	//判断
-	var msg = ""
-	if(username.length === 0){
-		alert(msg + "你输入的用户名为空，请重新输入")
+	var msg = "";
+	if (username.length === 0) {
+		alert(msg + "你输入的用户名为空，请重新输入");
 		return;
 	}
-	if(password.length === 0){
-        alert(msg + "你输入的密码为空，请重新输入")
+	if (password.length === 0) {
+		alert(msg + "你输入的密码为空，请重新输入");
 		return;
 	}
-	if(passwordAgain !== password){
-		alert("两次输入的密码不一样，请重新输入")
+	if (passwordAgain !== password) {
+		alert("两次输入的密码不一样，请重新输入");
 		return;
 	}
 	//ajax传递数据
@@ -108,12 +121,12 @@ function signupSubmit(){
 	    contentType:'application/json;charset=utf-8',
 	    dataType:'json',
 	    success: function(data){
-	        if (data.stateCode == "200"){
-	            //注册成功
-				alert("注册成功，请登录")
-	        	console.log("signupSubmit函数提交的json信息处理后返回200，准备跳转到登陆页面。");
-	        	// window.location.href = 'login.html';
-	        }
+	        if (data.stateCode == "200") {
+				//注册成功
+				alert("注册成功，请登录");
+				console.log("signupSubmit函数提交的json信息处理后返回200，准备跳转到登陆页面。");
+				// window.location.href = 'login.html';
+			}
 	        else{
 	            //注册失败,错误信息在data.msg里面
 	        	console.log("signupSubmit函数提交的json信息处理后返回错误，alert输出data.msg中的错误信息。");

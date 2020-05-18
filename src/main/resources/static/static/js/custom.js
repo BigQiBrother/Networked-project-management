@@ -1,25 +1,37 @@
 /* Global variables */
 "use strict";
+
 function fillerIn() {
 	var username = localStorage.getItem("username");
-    if ( username === null){
-        window.location.href = 'login.html'
+	if (username === null) {
+		window.location.href = 'login.html';
 		console.log("xx")
-    }else {
+	} else {
 
-    }
+	}
 }
-var base_url = "http://localhost:8080";
+
+function basePath() {
+	var curWwwPath = window.document.location.href;
+	var pathName = window.document.location.pathname;
+	var pos = curWwwPath.indexOf(pathName);
+	var localhostPath = curWwwPath.substring(0, pos);
+	var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+	var basePath = localhostPath + projectName;
+	return basePath;
+}
+
+var base_url = basePath();
 var $document = $(document), $window = $(window), plugins = {
-	mainSlider : $('#slider'),
-	categoryCarousel : $('.category-carousel .container'),
-	testimonialsCarousel : $('.testimonials-carousel'),
-	brandsCarousel : $('.brands-carousel'),
-	textIconCarousel : $('.text-icon-carousel'),
-	bulbCarousel : $('.bulb-carousel'),
-	gallery : $('#gallery'),
-	backToTop : $('.back-to-top'),
-	submenu : $('[data-submenu]'),
+	mainSlider: $('#slider'),
+	categoryCarousel: $('.category-carousel .container'),
+	testimonialsCarousel: $('.testimonials-carousel'),
+	brandsCarousel: $('.brands-carousel'),
+	textIconCarousel: $('.text-icon-carousel'),
+	bulbCarousel: $('.bulb-carousel'),
+	gallery: $('#gallery'),
+	backToTop: $('.back-to-top'),
+	submenu: $('[data-submenu]'),
 	isotopeGallery : $('.gallery-isotope'),
 	postGallery : $('.blog-isotope'),
 	postCarousel : $('.post-carousel'),
@@ -367,16 +379,16 @@ $document
 						$postPreload.append(data);
 						if (plugins.postGallery.length) {
 							$(' > div', $postPreload).each(
-									function() {
-										item = $(this);
-										$postgallery.append(item).isotope(
-												'appended', item);
-										setPostSize();
-									});
+								function () {
+									item = $(this);
+									$postgallery.append(item).isotope(
+										'appended', item);
+									setPostSize();
+								});
 						}
 					}
 				});
-			})
+			});
 
 			function setPostSize() {
 				var windowW = window.innerWidth || $window.width(), itemsInRow = 1;
@@ -450,12 +462,12 @@ $document
 						var storage = window.localStorage;
 						var username = storage["username"];
 						var json = {
-							"username" : username,
-							"trueName" : "1111",
-							"idCardNum" : idCardNum,
-							"phoneNum" : phoneNum,
-							"age" : age
-						}
+							"username": username,
+							"trueName": "1111",
+							"idCardNum": idCardNum,
+							"phoneNum": phoneNum,
+							"age": age
+						};
 						$(form).ajaxSubmit({
 							type : "POST",
 							url : base_url +'/updateUserInfo',
@@ -492,17 +504,17 @@ $document
 						var storage = window.localStorage;
 						var username = storage["username"];
 						var carNum = $('#carNum').val();
-						var startTime  = $('#startTime').val()
+						var startTime = $('#startTime').val();
 						var json = {
-							"username" : username,
-							"carNum" :carNum ,
+							"username": username,
+							"carNum": carNum,
 							"startTime": startTime
-						}
-                        $.ajax({
-                            type:"post",
-                            url:base_url + '/buyticket',
-                            data:JSON.stringify(json),
-                            contentType:'application/json;charset=utf-8',
+						};
+						$.ajax({
+							type: "post",
+							url: base_url + '/buyticket',
+							data: JSON.stringify(json),
+							contentType: 'application/json;charset=utf-8',
                             dataType:'json',
                             success: function(data){
                                 if (data.stateCode === 200){
@@ -550,10 +562,10 @@ $document
 								var destinationLocation = $("#target").val();
 								var startTime = $("#date").val();
 								var json = {
-									"orginLocation" : orginLocation,
-									"destinationLocation" : destinationLocation,
-									"startTime" : startTime
-								}
+									"orginLocation": orginLocation,
+									"destinationLocation": destinationLocation,
+									"startTime": startTime
+								};
 
                                 $.ajax({
                                     type:"post",
@@ -563,17 +575,17 @@ $document
                                     dataType:'json',
                                     success : function(data) {
                                         if (data.stateCode === 200) {
-											window.localStorage.setItem("ticketItem", JSON.stringify(data.data))
-                                            $("#ticketTable").siblings(
-                                                'tr'
-                                            ).remove()
-                                            // $("#ticketTable").html("");
-                                            // 修改成功
-                                            console.log(data.data[0])
-                                            // 在表格中呈现数据
-                                            for (var i = 0;i<data.data.length; i++) {
-                                                var tr;
-                                                tr = '<td>'
+											window.localStorage.setItem("ticketItem", JSON.stringify(data.data));
+											$("#ticketTable").siblings(
+												'tr'
+											).remove();
+											// $("#ticketTable").html("");
+											// 修改成功
+											console.log(data.data[0]);
+											// 在表格中呈现数据
+											for (var i = 0; i < data.data.length; i++) {
+												var tr;
+												tr = '<td>'
                                                     + data.data[i].orginLocation
                                                     + '</td>'
                                                     + '<td>'
@@ -780,29 +792,29 @@ $document
 								var storage = window.localStorage;
 								var username = storage["username"];
 								var json = {
-									"username" : username,
-									"trueName" : trueName,
-									"idCardNum" : idCardNum,
-									"phoneNum" : phoneNum,
-									"age" : age
-								}
-								console.log(json)
-                                ///
+									"username": username,
+									"trueName": trueName,
+									"idCardNum": idCardNum,
+									"phoneNum": phoneNum,
+									"age": age
+								};
+								console.log(json);
+								///
 
-                                $.ajax({
-                                    type:"post",
-                                    url:base_url +'/updateUserInfo',
-                                    data:JSON.stringify(json),
-                                    contentType:'application/json;charset=utf-8',
-                                    dataType:'json',
-                                    success: function(data){
-                                        console.log(data.stateCode)
+								$.ajax({
+									type: "post",
+									url: base_url + '/updateUserInfo',
+									data: JSON.stringify(json),
+									contentType: 'application/json;charset=utf-8',
+									dataType: 'json',
+									success: function (data) {
+										console.log(data.stateCode);
                                         if (data.stateCode === 200) {
 
                                             // 修改成功
-                                            alert("用户信息修改成功，跳转到首页")
-                                            $('#success')
-                                                .fadeIn();
+											alert("用户信息修改成功，跳转到首页");
+											$('#success')
+												.fadeIn();
                                             $('#perform')
                                                 .each(
                                                     function() {
@@ -912,12 +924,12 @@ $document
 								var storage = window.localStorage;
 								var username = storage["username"];
 								var json = {
-									"username" : username,
-									"trueName" : trueName,
-									"idCardNum" : idCardNum,
-									"phoneNum" : phoneNum,
-									"age" : age
-								}
+									"username": username,
+									"trueName": trueName,
+									"idCardNum": idCardNum,
+									"phoneNum": phoneNum,
+									"age": age
+								};
                                 $.ajax({
                                     type:"post",
                                     url:base_url +'/updateUserInfo',
@@ -925,7 +937,7 @@ $document
                                     contentType:'application/json;charset=utf-8',
                                     dataType:'json',
                                     success: function(data){
-                                        console.log(data.stateCode)
+										console.log(data.stateCode);
                                         if (data.stateCode === 200) {
                                             // 修改成功
                                             $('#success')
@@ -1013,12 +1025,12 @@ $document
 						setPostSize();
 					}
 				}, 500);
-				setTimeout(function() {
+				setTimeout(function () {
 					$dropdown.removeClass('opened');
 					toggleNavbarMethod(windowWidth);
 				}, 1000);
 			});
-		})
+		});
 
 $window.on('load', function() {
 	setTimeout(function() {
@@ -1323,17 +1335,17 @@ function pay(i) {
 	var storage = window.localStorage;
 	var username = storage["username"];
 	var ticketItem = storage.getItem("ticketItem");
-	ticketItem = JSON.parse(ticketItem)
+	ticketItem = JSON.parse(ticketItem);
 	// ajax
 	var json = {
-		"username" : username
-	}
+		"username": username
+	};
 	// ajax提交数据
 	$.ajax({
-		type : 'POST',
-		url : base_url +'/getpersoninfo',
-		data : JSON.stringify(json),
-		contentType : 'application/json;charset=utf-8',
+		type: 'POST',
+		url: base_url + '/getpersoninfo',
+		data: JSON.stringify(json),
+		contentType: 'application/json;charset=utf-8',
 		dataType : 'json',
 		success : function(data) {
 			if (data.stateCode == "200") {
