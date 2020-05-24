@@ -1,6 +1,8 @@
 package com.agile.agiletest.controller;
 
 import com.agile.agiletest.Result.Result;
+import com.agile.agiletest.config.data.DataSource;
+import com.agile.agiletest.config.data.DataSourceNames;
 import com.agile.agiletest.dao.TripsDao;
 import com.agile.agiletest.dao.UserDao;
 import com.agile.agiletest.pojo.Order;
@@ -34,6 +36,7 @@ public class TicketController {
      * @return
      */
     @PostMapping("/buyticket")
+    @DataSource(DataSourceNames.ONE)
     public Result buyTicket(@RequestBody JSONObject data){
         //获取前端传来的数据
         String username = data.getString("username");
@@ -56,6 +59,7 @@ public class TicketController {
      * @return
      */
     @PostMapping("/ticketrefund")
+    @DataSource(DataSourceNames.ONE)
     public Result ticketRefund(@RequestBody JSONObject data){
 //       获取这三个信息进行订单查询 personId  carNum  orginLocation  destinationLocation
 //        int personId = 0;
@@ -69,6 +73,7 @@ public class TicketController {
     }
 
     @PostMapping("/paymoney")
+    @DataSource(DataSourceNames.ONE)
     public Result payMoney(@RequestBody JSONObject data){
         int orderId = data.getInteger("orderId");
         return tripsService.payMoney(orderId);

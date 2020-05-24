@@ -2,11 +2,16 @@ package com.agile.agiletest.controller;
 
 
 import com.agile.agiletest.Result.Result;
+import com.agile.agiletest.config.data.DataSource;
+import com.agile.agiletest.config.data.DataSourceNames;
 import com.agile.agiletest.pojo.Person;
 import com.agile.agiletest.service.UserService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * login function
@@ -20,6 +25,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/updateUserInfo")
+    @DataSource(DataSourceNames.ONE)
     public Result updateUserInfo(@RequestBody JSONObject jsonObject){
         Result result = null;
         String username = jsonObject.getString("username");
@@ -33,6 +39,7 @@ public class UserController {
     }
 
     @PostMapping("/getpersoninfo")
+    @DataSource(DataSourceNames.TWO)
     public Result getPersonInfo(@RequestBody JSONObject jsonObject){
         return userService.getPersonInfo(jsonObject.getString("username"));
     }

@@ -2,6 +2,8 @@ package com.agile.agiletest.controller;
 
 
 import com.agile.agiletest.Result.Result;
+import com.agile.agiletest.config.data.DataSource;
+import com.agile.agiletest.config.data.DataSourceNames;
 import com.agile.agiletest.pojo.Trips;
 import com.agile.agiletest.service.TripsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ public class TripsController {
      * */
     @PostMapping("/getAimtrips")
     @ResponseBody
+    @DataSource(DataSourceNames.TWO)
     public Result getAimtrips(@RequestBody Trips trips){
         Result result = tripsService.getAimtrips(trips);
         return result;
@@ -38,6 +41,7 @@ public class TripsController {
      * */
     @PostMapping("/getalltrips")
     @ResponseBody
+    @DataSource(DataSourceNames.TWO)
     public Result getAlltrips(@RequestBody Trips trips){
         Result result = tripsService.getAlltrips(trips);
         return result;

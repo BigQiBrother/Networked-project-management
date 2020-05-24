@@ -1,6 +1,8 @@
 package com.agile.agiletest.controller;
 
 import com.agile.agiletest.Result.Result;
+import com.agile.agiletest.config.data.DataSource;
+import com.agile.agiletest.config.data.DataSourceNames;
 import com.agile.agiletest.pojo.User;
 import com.agile.agiletest.service.LoginService;
 import com.alibaba.fastjson.JSONObject;
@@ -26,6 +28,7 @@ public class LoginController {
     @PostMapping("/login")
     @GetMapping("/login")
     @ResponseBody
+    @DataSource(DataSourceNames.TWO)
     public Result login(@RequestBody JSONObject jsonObject){
         User user = new User();
         String password = jsonObject.getString("password");
@@ -42,6 +45,7 @@ public class LoginController {
      * @return
      */
     @PostMapping("/updatePassword")
+    @DataSource(DataSourceNames.ONE)
     public Result updateUser(@RequestBody JSONObject jsonObject){
         User userData = new User();
         userData.setUsername(jsonObject.getString("username"));
@@ -57,6 +61,7 @@ public class LoginController {
      * @return
      */
     @PostMapping("/regist")
+    @DataSource(DataSourceNames.ONE)
     public Result registUser(@RequestBody User userData){
         return loginService.registUser(userData);
     }
