@@ -3,10 +3,10 @@ package com.agile.agiletest.controller;
 import com.agile.agiletest.Result.Result;
 import com.agile.agiletest.config.data.DataSource;
 import com.agile.agiletest.config.data.DataSourceNames;
+import com.agile.agiletest.config.mq.MQSender;
 import com.agile.agiletest.dao.TripsDao;
 import com.agile.agiletest.dao.UserDao;
-import com.agile.agiletest.pojo.Order;
-import com.agile.agiletest.pojo.Trips;
+import com.agile.agiletest.pojo.Message;
 import com.agile.agiletest.service.TripsService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-
 @RestController
 @CrossOrigin
 public class TicketController {
 
+    @Autowired
+    private MQSender mqSender;
 
     @Autowired
     private TripsService tripsService;
@@ -30,6 +30,7 @@ public class TicketController {
 
     @Autowired
     private UserDao userDao;
+
     /**
      * 预定车票
      * @param data
@@ -37,19 +38,16 @@ public class TicketController {
      */
     @PostMapping("/buyticket")
     @DataSource(DataSourceNames.ONE)
-    public Result buyTicket(@RequestBody JSONObject data){
+    public Result buyTicket(@RequestBody JSONObject data) {
         //获取前端传来的数据
         String username = data.getString("username");
         String carNum = data.getString("carNum");
         String startTime = data.getString("startTime");
-
-        Trips trips = tripsDao.getTripsInfoByCarNumAndStartTime(carNum, startTime);
-        int carInfoId = trips.getId();
-        //        int carInfoId  = data.getInteger("id");
-        //进入购票service
-        Result result = tripsService.buyTicket(username, carInfoId, carNum);
-        Order order = (Order) ((Map<String, Object>)result.getData()).get("order");
-        return tripsService.payMoney(order.getId());
+        Result result = new Result();
+        Message message = new Message(username, carNum, startTime);
+        mqSender.sendMessage(new Message(message.getUsername(), message.getCarNum(), message.getStartTime()));
+        result.setStateCode(200);
+        return result;
     }
 
 
