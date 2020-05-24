@@ -1,4 +1,4 @@
-这是在软件测试课程里面跟同学一起开发的一个用来学习软件测试的小系统，麻雀虽小，但五脏俱全，提供给大家学习使用（agiltest文件夹为项目源代码）
+网络化项目管理大作业，仅供学习使用（agiltest文件夹为项目源代码）
 
 
 项目名：火车订票系统
@@ -36,30 +36,8 @@ base_url 在项目文件的相对位置：agiletest\src\main\resources\static\st
 确保上述正确后，即可打开项目(以agiletest文件夹为根目录)，使用maven导包运行
 
 
-注意，项目额外添加了两个依赖，如果是从csdn看到我的博客过来的，自行构建项目目录的时候要额外再pom.xml文件里面添加两个依赖
-
-<!--json数据转化接收工具-->
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-			<version>1.2.49</version>
-		</dependency>
-
-<!-- alibaba的druid数据库连接池 -->
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>druid-spring-boot-starter</artifactId>
-			<version>1.1.10</version>
-		</dependency>
-
-
-
 访问地址：
 http://localhost:8080/static/fontpage/login.html
-
-
-
-
 
 大家觉得好用的话，给颗星星呗~~~~~
 
