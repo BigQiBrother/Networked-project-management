@@ -6,7 +6,7 @@ import com.agile.agiletest.config.data.DataSourceNames;
 import com.agile.agiletest.config.mq.MQSender;
 import com.agile.agiletest.dao.TripsDao;
 import com.agile.agiletest.dao.UserDao;
-import com.agile.agiletest.pojo.Message;
+import com.agile.agiletest.pojo.myMessage;
 import com.agile.agiletest.service.TripsService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+
 @RestController
 @CrossOrigin
 public class TicketController {
+
 
     @Autowired
     private MQSender mqSender;
@@ -25,10 +28,10 @@ public class TicketController {
     @Autowired
     private TripsService tripsService;
 
-    @Autowired
+    @Resource
     private TripsDao tripsDao;
 
-    @Autowired
+    @Resource
     private UserDao userDao;
 
     /**
@@ -45,8 +48,9 @@ public class TicketController {
         String startTime = data.getString("startTime");
         int seat = data.getInteger("seat");
         Result result = new Result();
-        Message message = new Message(username, carNum, startTime, seat);
-        mqSender.sendMessage(new Message(message.getUsername(), message.getCarNum(), message.getStartTime(), message.getSeat()));
+        myMessage message = new myMessage(username, carNum, startTime, seat);
+
+        mqSender.sendMessage(new myMessage(message.getUsername(), message.getCarNum(), message.getStartTime(), message.getSeat()));
         result.setStateCode(200);
         return result;
     }

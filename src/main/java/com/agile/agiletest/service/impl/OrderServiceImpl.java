@@ -80,7 +80,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Result changeOrder(int orderId, int tripsId) {
+    public Result changeOrder(int orderId, int tripsId, int seat) {
         Result result = new Result();
         Order order = orderDao.getAimOrder(orderId);
         Trips trips = tripsDao.gettrips(tripsId);
@@ -92,7 +92,7 @@ public class OrderServiceImpl implements OrderService {
         if (trips.getTicketNum() > 0) {
             tripsDao.changeOldtrips(order.getCarInfoId());
             tripsDao.changeNewtrips(tripsId);
-            orderDao.changeOrder(orderId, tripsId);
+            orderDao.changeOrder(orderId, tripsId, seat);
             result.setStateCode(200);
             result.setMsg("change order succeed");
         } else {

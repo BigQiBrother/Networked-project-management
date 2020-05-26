@@ -11,6 +11,12 @@ spring:
         port: 5672
         username: admin
         password: admin
+        virtual-host: /
+        listener:
+            simple:
+                max-concurrency: 20
+                concurrency: 10
+                prefetch: 5
     datasource:
         name: mysql_test
         type: com.alibaba.druid.pool.DruidDataSource

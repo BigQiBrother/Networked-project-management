@@ -1,17 +1,17 @@
 package com.agile.agiletest.config.mq;
 
-import com.agile.agiletest.pojo.Message;
-import org.springframework.amqp.core.AmqpTemplate;
+import com.agile.agiletest.pojo.myMessage;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MQSender {
     @Autowired
-    private AmqpTemplate amqpTemplate;
+    RabbitTemplate rabbitTemplate;
 
-    public void sendMessage(Message message) {
-        amqpTemplate.convertAndSend(MQConstants.BUY, message);
+    public void sendMessage(myMessage message) {
+        rabbitTemplate.convertAndSend("DirectExchange", "DirectRouting", message);
     }
 
 }

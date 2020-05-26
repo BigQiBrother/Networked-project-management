@@ -35,7 +35,7 @@ public interface OrderDao {
 
 
     @Update("update `order` set status = 2 where person_id=#{personId} and car_info_id = (select id from trips where car_num = #{carNum}" +
-            " and start_time = #{startTime} and reach_time = #{reachTime})")
+            " and start_time = #{startTime} and reach_time = #{reachTime} limit 1)")
     int updateOrder1(@Param("personId") int personId, @Param("carNum") String carNum,
                      @Param("startTime") String startTime, @Param("reachTime") String reachTime);
 
@@ -62,8 +62,8 @@ public interface OrderDao {
      *
      * @return
      */
-    @Update("update `order` set car_info_id = #{tripsId},change_times = change_times +1,status = 3 where id = #{orderId}")
-    int changeOrder(@Param("orderId") int orderId, @Param("tripsId") int tripsId);
+    @Update("update `order` set car_info_id = #{tripsId},change_times = change_times +1,status = 3,seat=#{seat} where id = #{orderId}")
+    int changeOrder(@Param("orderId") int orderId, @Param("tripsId") int tripsId, @Param("seat") int seat);
 
 
 }

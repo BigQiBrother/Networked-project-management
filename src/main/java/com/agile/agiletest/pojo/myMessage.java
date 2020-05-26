@@ -2,16 +2,16 @@ package com.agile.agiletest.pojo;
 
 import java.io.Serializable;
 
-public class Message implements Serializable {
+public class myMessage implements Serializable {
     private String username;
     private String carNum;
     private String startTime;
     private int seat;
 
-    public Message() {
+    public myMessage() {
     }
 
-    public Message(String username, String carNum, String startTime, int seat) {
+    public myMessage(String username, String carNum, String startTime, int seat) {
         this.username = username;
         this.carNum = carNum;
         this.startTime = startTime;

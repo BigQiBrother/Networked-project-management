@@ -504,6 +504,11 @@ $document
 						var storage = window.localStorage;
 						var username = storage["username"];
 						var carNum = $('#carNum').val();
+						if (carNum == "") {
+							alert("请先选票");
+							return;
+						}
+
 						var startTime = $('#startTime').val();
 						var seat = $('#seat').val();
 						var json = {
@@ -522,8 +527,20 @@ $document
                                 if (data.stateCode === 200) {
 									// 付款成功
 									console.log("成功付款转向订单页面");
+
+									alert("请前往订单信息查看");
+									$("#trueName").val('');
+									$("#phone").val('');
+									$("#identity").val('');
+									// console.log(ticketItem)
+									$("#carNum").val('');
+									$("#orginLocation").val('');
+									$("#destinationLocation").val('');
+									$("#startTime").val('');
+									$("#reachTime").val('');
+									$("#ticketPrice").val('');
+									$("#seat").val('1');
 									// window.location.href = 'orderForm.html';
-									alert("请前往订单信息查看")
 								}
                                 else{
                                     // 付款失败,错误信息在data.msg里面
@@ -1430,7 +1447,7 @@ function pay(i) {
 				$("#reachTime").val(ticketItem[i].reachTime);
 				$("#ticketPrice").val(ticketItem[i].ticketPrice);
 				$("#seat").val('1');
-				storage.removeItem('ticketItem');// 清除留存的信息
+				// storage.removeItem('ticketItem');// 清除留存的信息
 				alert("请确认订单信息无误后再付款")
 			} else
 				// 查询失败,错误信息在data.msg里面（未填写个人信息，请完善个人信息）

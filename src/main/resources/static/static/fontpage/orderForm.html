@@ -271,9 +271,13 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="input-wrapper">
-                                    <label>座位<span class="required"></span></label> <input
-                                        class="input-custom input-full" disabled id="seat" name="seat"
-                                        type="text">
+                                    <label>座位<span class="required"></span></label>
+                                    <select class="select-custom" id="seat">
+                                        <option value="1">无座</option>
+                                        <option value="2">一等座</option>
+                                        <option value="3">二等座</option>
+                                        <option value="4">商务座</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -432,7 +436,7 @@
                 console.log("查询订单信息成功，呈现到订单信息的页面当中");
                 //暂时的解决掉数据的参数传递问题
                 window.localStorage.setItem("orderItem", JSON.stringify(data.data));
-
+                json = JSON.stringify(data.data);
                 // $("#orderTable").html("");
                 $("#orderTable tbody").html('');
 
@@ -466,7 +470,6 @@
                         + '</td>';
                     $("#orderTable tbody").append('<tr>' + tr + '</tr>');
                 }
-                json = JSON.stringify(data.data)
             } else
                 // 查询失败,错误信息在data.msg里面（未填写个人信息，请完善个人信息）
                 alert("错误信息：" + data.msg)
@@ -559,7 +562,8 @@
             url: base_url + '/changeorder',
             data: JSON.stringify({
                 orderId: Number.parseInt($("#orderId").val()),
-                tripsId: Number.parseInt(tripId)
+                tripsId: Number.parseInt(tripId),
+                seat: Number.parseInt($("#seat").val())
             }),
             contentType: 'application/json;charset=utf-8',
             dataType: 'json',

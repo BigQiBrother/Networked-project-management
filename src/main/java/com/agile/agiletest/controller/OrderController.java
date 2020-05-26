@@ -43,7 +43,8 @@ public class OrderController {
     public Result changeOrder(@RequestBody JSONObject jsonObject){
         int orderid = jsonObject.getInteger("orderId");
         int tripsid = jsonObject.getInteger("tripsId");
-        Result result = orderService.changeOrder(orderid,tripsid);
+        int seat = jsonObject.getInteger("seat");
+        Result result = orderService.changeOrder(orderid, tripsid, seat);
         return result;
     }
 }

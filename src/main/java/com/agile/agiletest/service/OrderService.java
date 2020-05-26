@@ -12,11 +12,11 @@ public interface OrderService {
     /**
      * @param username
      * @return
-     * */
-    public abstract Result getOrder(String username);
+     */
+    Result getOrder(String username);
 
     /**
      *订单改签
      */
-    public abstract Result changeOrder(int orderId,int tripsId);
+    Result changeOrder(int orderId, int tripsId, int seat);
 }

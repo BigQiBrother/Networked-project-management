@@ -2,28 +2,31 @@ package com.agile.agiletest.config.mq;
 
 import com.agile.agiletest.Result.Result;
 import com.agile.agiletest.dao.TripsDao;
-import com.agile.agiletest.pojo.Message;
 import com.agile.agiletest.pojo.Order;
 import com.agile.agiletest.pojo.Trips;
+import com.agile.agiletest.pojo.myMessage;
 import com.agile.agiletest.service.TripsService;
+import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.Map;
 
-@Service
+@Component
+@RabbitListener(queues = MQConstants.BUY)
 public class MQReceiver {
     @Autowired
     private TripsService tripsService;
 
-    @Resource
+    @Autowired
     private TripsDao tripsDao;
 
-    @RabbitListener(queues = MQConstants.BUY)
-    public void receive(Message message) {
+    @RabbitHandler
+    public void process(myMessage message) {
+        System.out.println(message.getCarNum() + " " + message.getStartTime());
         Trips trips = tripsDao.getTripsInfoByCarNumAndStartTime(message.getCarNum(), message.getStartTime());
+        System.out.println(trips);
         int carInfoId = trips.getId();
         //        int carInfoId  = data.getInteger("id");
         //进入购票service
