@@ -9,7 +9,7 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue buyMessageQueue() {
-        return new Queue(MQConstants.BUY);
+        return new Queue(MQConstants.BUY, true);
     }
 
 }

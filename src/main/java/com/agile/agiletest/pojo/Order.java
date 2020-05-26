@@ -13,6 +13,26 @@ public class Order {
     private int changeTimes;
     //0是预定未付款， 1是已经支付， 2是退票
     private int status;
+    private int seat;
+
+    //    public Order(int id, int carInfoId, int personId, int changeTimes, int status) {
+//        this.id = id;
+//        this.carInfoId = carInfoId;
+//        this.personId = personId;
+//        this.changeTimes = changeTimes;
+//        this.status = status;
+//    }
+    public Order(int carInfoId, int personId, int changeTimes, int seat) {
+        this.carInfoId = carInfoId;
+        this.personId = personId;
+        this.changeTimes = changeTimes;
+        this.seat = seat;
+    }
+
+    public int getSeat() {
+        return seat;
+    }
+
     private String stautsMsg;
 
     public String getStautsMsg() {
@@ -77,16 +97,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(int id, int carInfoId, int personId, int changeTimes, int status) {
-        this.id = id;
-        this.carInfoId = carInfoId;
-        this.personId = personId;
-        this.changeTimes = changeTimes;
-        this.status = status;
-    }
-    public Order(int carInfoId, int personId, int changeTimes) {
-        this.carInfoId = carInfoId;
-        this.personId = personId;
-        this.changeTimes = changeTimes;
+    public void setSeat(int seat) {
+        this.seat = seat;
     }
 }

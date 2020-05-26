@@ -10,6 +10,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 @Service
@@ -17,7 +18,7 @@ public class MQReceiver {
     @Autowired
     private TripsService tripsService;
 
-    @Autowired
+    @Resource
     private TripsDao tripsDao;
 
     @RabbitListener(queues = MQConstants.BUY)
@@ -26,7 +27,7 @@ public class MQReceiver {
         int carInfoId = trips.getId();
         //        int carInfoId  = data.getInteger("id");
         //进入购票service
-        Result result = tripsService.buyTicket(message.getUsername(), carInfoId, message.getCarNum());
+        Result result = tripsService.buyTicket(message.getUsername(), carInfoId, message.getCarNum(), message.getSeat());
         Order order = (Order) ((Map<String, Object>) result.getData()).get("order");
         tripsService.payMoney(order.getId());
     }

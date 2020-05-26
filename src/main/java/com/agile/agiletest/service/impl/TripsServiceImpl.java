@@ -10,25 +10,25 @@ import com.agile.agiletest.pojo.Person;
 import com.agile.agiletest.pojo.Trips;
 import com.agile.agiletest.pojo.User;
 import com.agile.agiletest.service.TripsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class TripsServiceImpl implements TripsService {
-    @Autowired
+    @Resource
     private OrderDao  orderDao;
 
-    @Autowired
+    @Resource
     private UserDao userDao;
-    @Autowired
+    @Resource
     private PersonDao personDao;
 
-    @Autowired
+    @Resource
     private TripsDao tripsDao;
     @Override
     public Result getAlltrips(Trips trips) {
@@ -64,13 +64,13 @@ public class TripsServiceImpl implements TripsService {
 
     @Override
     @Transactional
-    public Result buyTicket(String username, int carInfoId, String carNum) {
+    public Result buyTicket(String username, int carInfoId, String carNum, int seat) {
         Result result = new Result();
 
         //获取用户个人信息的id
         User customer = userDao.getUserByUsername(username);
         Person person = personDao.getPersonInfo(customer.getPersonId());
-        if (person == null){
+        if (person == null) {
             result.setStateCode(400);
             result.setMsg("购票前请完善用户个人信息");
             result.setData(false);
@@ -82,7 +82,7 @@ public class TripsServiceImpl implements TripsService {
         //获取车票详细信息
         Trips tripsInfoData = tripsDao.getTripsInfoByCarInfoIdAndId(trips);
         //判断车票是否卖光了
-        Order order = new Order(carInfoId, customer.getPersonId(),0);
+        Order order = new Order(carInfoId, customer.getPersonId(), 0, seat);
         order.setStatus(0);
         if (tripsInfoData.getTicketNum() >= 1){
 

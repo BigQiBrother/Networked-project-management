@@ -6,16 +6,17 @@ import com.agile.agiletest.dao.UserDao;
 import com.agile.agiletest.pojo.Person;
 import com.agile.agiletest.pojo.User;
 import com.agile.agiletest.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
+    @Resource
     private UserDao userDao;
 
-    @Autowired
+    @Resource
     private PersonDao personDao;
 
 //    @Transactional

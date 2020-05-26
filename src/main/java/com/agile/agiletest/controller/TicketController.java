@@ -43,9 +43,10 @@ public class TicketController {
         String username = data.getString("username");
         String carNum = data.getString("carNum");
         String startTime = data.getString("startTime");
+        int seat = data.getInteger("seat");
         Result result = new Result();
-        Message message = new Message(username, carNum, startTime);
-        mqSender.sendMessage(new Message(message.getUsername(), message.getCarNum(), message.getStartTime()));
+        Message message = new Message(username, carNum, startTime, seat);
+        mqSender.sendMessage(new Message(message.getUsername(), message.getCarNum(), message.getStartTime(), message.getSeat()));
         result.setStateCode(200);
         return result;
     }

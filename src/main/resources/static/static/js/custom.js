@@ -505,10 +505,12 @@ $document
 						var username = storage["username"];
 						var carNum = $('#carNum').val();
 						var startTime = $('#startTime').val();
+						var seat = $('#seat').val();
 						var json = {
 							"username": username,
 							"carNum": carNum,
-							"startTime": startTime
+							"startTime": startTime,
+							"seat": seat
 						};
 						$.ajax({
 							type: "post",
@@ -517,11 +519,12 @@ $document
 							contentType: 'application/json;charset=utf-8',
                             dataType:'json',
                             success: function(data){
-                                if (data.stateCode === 200){
-                                    // 付款成功
-                                    console.log("成功付款转向订单页面");
-                                    window.location.href = 'orderForm.html';
-                                }
+                                if (data.stateCode === 200) {
+									// 付款成功
+									console.log("成功付款转向订单页面");
+									// window.location.href = 'orderForm.html';
+									alert("请前往订单信息查看")
+								}
                                 else{
                                     // 付款失败,错误信息在data.msg里面
                                     alert("错误信息：" + data.msg);
@@ -561,24 +564,24 @@ $document
 								var orginLocation = $("#source").val();
 								var destinationLocation = $("#target").val();
 								var startTime = $("#date").val();
+								var price = $("#price").val();
 								var json = {
 									"orginLocation": orginLocation,
 									"destinationLocation": destinationLocation,
-									"startTime": startTime
+									"startTime": startTime,
+									"ticketPrice": price
 								};
 
-                                $.ajax({
-                                    type:"post",
-                                    url:base_url +'/getalltrips',
+								$.ajax({
+									type: "post",
+									url: base_url + '/getalltrips',
                                     data:JSON.stringify(json),
                                     contentType:'application/json;charset=utf-8',
                                     dataType:'json',
                                     success : function(data) {
                                         if (data.stateCode === 200) {
 											window.localStorage.setItem("ticketItem", JSON.stringify(data.data));
-											$("#ticketTable").siblings(
-												'tr'
-											).remove();
+											$("#ticketTable tbody").html('');
 											// $("#ticketTable").html("");
 											// 修改成功
 											console.log(data.data[0]);
@@ -586,9 +589,9 @@ $document
 											for (var i = 0; i < data.data.length; i++) {
 												var tr;
 												tr = '<td>'
-                                                    + data.data[i].orginLocation
-                                                    + '</td>'
-                                                    + '<td>'
+													+ data.data[i].orginLocation
+													+ '</td>'
+													+ '<td>'
                                                     + data.data[i].startTime
                                                     + '</td>'
                                                     + '<td>'
@@ -609,7 +612,7 @@ $document
                                                     + '<td>'
                                                     + '<button onclick="pay('+ i +')">购票</button>'
                                                     + '</td>';
-                                                $("#ticketTable")
+												$("#ticketTable tbody")
                                                     .append(
                                                         '<tr>'
                                                         + tr
@@ -1322,10 +1325,72 @@ $window.on('load', function() {
 // 	})
 // }
 function change() {
-	console.log("实现用户改签的操作");
+	if ($("#trueName").val() == "")
+		return;
 	//需要添加数据项的是changeTable
-	
+	var json = {
+		"orginLocation": '',
+		"destinationLocation": '',
+		"startTime": ''
+	};
+	$.ajax({
+		type: "post",
+		url: base_url + '/getalltrips',
+		data: JSON.stringify(json),
+		contentType: 'application/json;charset=utf-8',
+		dataType: 'json',
+		success: function (data) {
+			if (data.stateCode === 200) {
+				// window.localStorage.setItem("ticketItem", JSON.stringify(data.data));
+				$("#changeTable tbody").html('');
+				// $("#ticketTable").html("");
+				// 修改成功
+				console.log(data.data[0]);
+				// 在表格中呈现数据
+				for (var i = 0; i < data.data.length; i++) {
+					var tr;
+					tr = '<td>'
+						+ data.data[i].orginLocation
+						+ '</td>'
+						+ '<td>'
+						+ data.data[i].startTime
+						+ '</td>'
+						+ '<td>'
+						+ data.data[i].destinationLocation
+						+ '</td>'
+						+ '<td>'
+						+ data.data[i].reachTime
+						+ '</td>'
+						+ '<td>'
+						+ data.data[i].carNum
+						+ '</td>'
+						+ '<td>'
+						+ data.data[i].ticketPrice
+						+ '</td>'
+						+ '<td>'
+						+ data.data[i].ticketNum
+						+ '</td>'
+						+ '<td>'
+						+ '<button onclick="changeTrip(' + data.data[i].id + ')">改签</button>'
+						+ '</td>';
+					$("#changeTable tbody")
+						.append(
+							'<tr>'
+							+ tr
+							+ '</tr>');
+				}
+
+			} else {
+				// 注册失败,错误信息在data.msg里面
+				alert("错误信息："
+					+ data.msg);
+
+			}
+		},
+	})
+
 }
+
 function pay(i) {
 	// 把信息呈现在页面下面的输入框当中
 	// var ticket = JSON.stringify(json);
@@ -1364,6 +1429,7 @@ function pay(i) {
 				$("#startTime").val(ticketItem[i].startTime);
 				$("#reachTime").val(ticketItem[i].reachTime);
 				$("#ticketPrice").val(ticketItem[i].ticketPrice);
+				$("#seat").val('1');
 				storage.removeItem('ticketItem');// 清除留存的信息
 				alert("请确认订单信息无误后再付款")
 			} else

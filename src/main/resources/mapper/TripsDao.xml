@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--对应接口，写入sql语句-->
+
+<mapper namespace="com.agile.agiletest.dao.TripsDao">
+
+
+    <select id="getAlltrips" resultType="com.agile.agiletest.pojo.Trips" parameterType="com.agile.agiletest.pojo.Trips">
+        select * from trips
+        <where>
+            <if test="orginLocation!=''">
+                orgin_location=#{orginLocation}
+            </if>
+            <if test="destinationLocation!=''">
+                and destination_location=#{destinationLocation}
+            </if>
+            <if test="startTime!=''">
+                and start_time like CONCAT('%',#{startTime},'%')
+            </if>
+            <if test="ticketPrice!=''">
+                and ticket_price=#{ticketPrice}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

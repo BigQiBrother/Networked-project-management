@@ -6,14 +6,24 @@ public class Message implements Serializable {
     private String username;
     private String carNum;
     private String startTime;
+    private int seat;
 
     public Message() {
     }
 
-    public Message(String username, String carNum, String startTime) {
+    public Message(String username, String carNum, String startTime, int seat) {
         this.username = username;
         this.carNum = carNum;
         this.startTime = startTime;
+        this.seat = seat;
+    }
+
+    public int getSeat() {
+        return seat;
+    }
+
+    public void setSeat(int seat) {
+        this.seat = seat;
     }
 
     public String getUsername() {

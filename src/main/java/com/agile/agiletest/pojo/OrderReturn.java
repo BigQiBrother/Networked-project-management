@@ -1,6 +1,7 @@
 package com.agile.agiletest.pojo;
 
 public class OrderReturn {
+    private Integer id;
     private String orginLocation;
     private String destinationLocation;
     //    @DateTimeFormat(pattern="yyyy-MM-dd hh:mm:ss")
@@ -14,6 +15,32 @@ public class OrderReturn {
     private String idCardNum;
     private String phoneNum;
     private String status;
+    private int seat;
+    private int changeTimes;
+
+    public int getSeat() {
+        return seat;
+    }
+
+    public void setSeat(int seat) {
+        this.seat = seat;
+    }
+
+    public int getChangeTimes() {
+        return changeTimes;
+    }
+
+    public void setChangeTimes(int changeTimes) {
+        this.changeTimes = changeTimes;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getStatus() {
         return status;

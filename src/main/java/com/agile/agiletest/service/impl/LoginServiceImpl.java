@@ -1,13 +1,13 @@
 package com.agile.agiletest.service.impl;
 
 import com.agile.agiletest.Result.Result;
-import com.agile.agiletest.dao.PersonDao;
 import com.agile.agiletest.dao.UserDao;
 import com.agile.agiletest.pojo.User;
 import com.agile.agiletest.service.LoginService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 /**
  * @author wangchang
@@ -16,11 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class LoginServiceImpl implements LoginService {
 
-    @Autowired
+    @Resource
     private UserDao userDao;
 
-    @Autowired
-    private PersonDao personDao;
     @Override
     public Result loginIn(User userData) {
         Result result = new Result();
