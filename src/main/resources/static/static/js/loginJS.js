@@ -56,24 +56,28 @@ function loginSubmit(){
 	var username = $("#username").val();
 	var password = $("#password").val();
 	//判断
-	if(username.length === 0) {
+	if (username.length === 0) {
 		alert("你输入的用户名为空，请重新输入");
 		return;
 	}
-	if(password.length == 0) {
+	if (password.length == 0) {
 		alert("你输入的密码为空，请重新输入");
 		return;
 	}
-	var json= {"username": username ,"password": password};
+	if (/[@#\$%\^&\*]+/gi.test(username) || /[@#\$%\^&\*]+/gi.test(password)) {
+		alert("你输入的用户名或密码有非法字符");
+		return;
+	}
+	var json = {"username": username, "password": password};
 	//ajax提交数据
 	$.ajax({
-		type:"post",
-		url:base_url +'/login',
-		data:JSON.stringify(json),
-		contentType:'application/json;charset=utf-8',
-		dataType:'json',
-		success: function(data){
-			if (data.stateCode === 200){
+		type: "post",
+		url: base_url + '/login',
+		data: JSON.stringify(json),
+		contentType: 'application/json;charset=utf-8',
+		dataType: 'json',
+		success: function (data) {
+			if (data.stateCode === 200) {
 				//跳转到完善个人信息页面
 				console.log("loginSubmit函数提交的json信息处理后返回200，将username存储到localStorage。");
 				localStorage.setItem("username",data.data.username);//此处存的为json String格式的username
@@ -113,15 +117,19 @@ function signupSubmit() {
 		alert("两次输入的密码不一样，请重新输入");
 		return;
 	}
+	if (/[@#\$%\^&\*]+/gi.test(username) || /[@#\$%\^&\*]+/gi.test(password) || /[@#\$%\^&\*]+/gi.test(passwordAgain)) {
+		alert("你输入的用户名或密码有非法字符");
+		return;
+	}
 	//ajax传递数据
 	$.ajax({
-	    type:'POST',
-	    url: base_url +'/regist',
-	    data:JSON.stringify(json),
-	    contentType:'application/json;charset=utf-8',
-	    dataType:'json',
-	    success: function(data){
-	        if (data.stateCode == "200") {
+		type: 'POST',
+		url: base_url + '/regist',
+		data: JSON.stringify(json),
+		contentType: 'application/json;charset=utf-8',
+		dataType: 'json',
+		success: function (data) {
+			if (data.stateCode == "200") {
 				//注册成功
 				alert("注册成功，请登录");
 				console.log("signupSubmit函数提交的json信息处理后返回200，准备跳转到登陆页面。");

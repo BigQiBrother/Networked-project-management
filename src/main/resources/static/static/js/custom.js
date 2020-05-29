@@ -38,7 +38,6 @@ var $document = $(document), $window = $(window), plugins = {
 	contactForm : $('#contactform'),
 	googleMapFooter : $('#footer-map'),
 	googleMap : $('#map'),
-
 	queryForm : $('#queryform'),
 	perForm : $('#perform'),
 	ticketForm : $('#ticketform'),
@@ -342,25 +341,30 @@ $document
 					itemsInRow = 2;
 				}
 				var containerW = $('#page-content').width(), galleryW = containerW
-						/ itemsInRow;
-				$gallery.find('.gallery__item').each(function() {
+					/ itemsInRow;
+				$gallery.find('.gallery__item').each(function () {
 					$(this).css({
-						width : galleryW + 'px'
+						width: galleryW + 'px'
 					});
 				});
 				$gallery.isotope('layout');
 			}
 
+			jQuery.validator.addMethod("regex",
+				function (value, element, params) {
+					var exp = new RegExp(params);
+					return exp.test(value);
+				}, "格式错误");
 			// Post Isotope
 			if (plugins.postGallery.length) {
 				var $postgallery = plugins.postGallery;
-				$postgallery.imagesLoaded(function() {
+				$postgallery.imagesLoaded(function () {
 					setPostSize();
 				});
 				$postgallery.isotope({
-					itemSelector : '.blog-post',
-					masonry : {
-						gutter : 30,
+					itemSelector: '.blog-post',
+					masonry: {
+						gutter: 30,
 						columnWidth : '.blog-post:not(.doubleW)'
 					}
 				});
@@ -424,35 +428,38 @@ $document
 				$contactform.validate({
 					rules : {
 						trueName : {
-							required : true,
+							required: true,
+							regex: /^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/
 						},
 						phone : {
-							required : true,
-							minlength : 11
+							required: true,
+							regex: /^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/
 						},
 						identity : {
 							required: true,
-							minlength: 18,
+							regex: /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/
 						},
 						age : {
-							required : true,
-
+							required: true,
+							regex: /^(?:[1-9][0-9]?|1[01][0-9]|120)$/
 						}
 					},
 					messages : {
 						trueName : {
-							required : "请输入你的姓名",
+							required: "请输入你的姓名",
+							regex: "请输入合法的姓名"
 						},
 						phone : {
-							required : "请输入你的电话号码",
-							minlength : "你的电话号码应当为11位"
+							required: "请输入你的电话号码",
+							regex: "请输入合法的手机号码",
 						},
 						identity : {
-							required : "请输入你的身份证号",
-							minlength : "你的身份证号码应当为18位"
+							required: "请输入你的身份证号",
+							regex: "请输入合法的身份证号",
 						},
 						age : {
-							required : "请输入你的年龄",
+							required: "请输入你的年龄",
+							regex: "请输入合法的年龄",
 						}
 					},
 					submitHandler : function(form) {
@@ -790,265 +797,138 @@ $document
 			if (plugins.perForm.length) {
 				var $perform = plugins.perForm;
 				$perform
-						.validate({
-							rules : {
-								trueName : {
-									required : true,
-								},
-								phone : {
-									required: true,
-									minlength: 11,
-									digits: true
-								},
-								identity : {
-									required : true,
-									minlength : 18
-								},
-								age : {
-									required: true,
-									digits: true
-								}
+					.validate({
+						rules: {
+							trueName: {
+								required: true,
+								regex: /^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/
 							},
-							messages : {
-								trueName : {
-									required : "请输入你的姓名",
-								},
-								phone : {
-									required: "请输入你的电话号码",
-									minlength: "你的电话号码应当为11位",
-									digits: "请输入合法的手机号码"
-								},
-								identity : {
-									required : "请输入你的身份证号",
-									minlength : "你的身份证号码应当为18位"
-								},
-								age : {
-									required: "请输入你的年龄",
-									digits: "请输入合法的年龄"
-								}
+							phone: {
+								required: true,
+								regex: /^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/
 							},
-							submitHandler : function(form) {
-								var trueName = $('#trueName').val();
-								var idCardNum = $('#identity').val();
-								var phoneNum = $('#phone').val();
-								var age = $('#age').val();
-								var storage = window.localStorage;
-								var username = storage["username"];
-								var json = {
-									"username": username,
-									"trueName": trueName,
-									"idCardNum": idCardNum,
-									"phoneNum": phoneNum,
-									"age": age
-								};
-								console.log(json);
-								///
-
-								$.ajax({
-									type: "post",
-									url: base_url + '/updateUserInfo',
-									data: JSON.stringify(json),
-									contentType: 'application/json;charset=utf-8',
-									dataType: 'json',
-									success: function (data) {
-										console.log(data.stateCode);
-                                        if (data.stateCode === 200) {
-
-                                            // 修改成功
-											alert("用户信息修改成功，跳转到首页");
-											$('#success')
-												.fadeIn();
-                                            $('#perform')
-                                                .each(
-                                                    function() {
-                                                        this
-                                                            .reset();
-                                                    });
-                                            console
-                                                .log("登陆成功后导向的完善个人信息的页面的json信息提交成功，准备转向系统首页");
-                                            window.location.href = 'index.html';
-                                        } else {
-                                            // 注册失败,错误信息在data.msg里面
-                                            console
-                                                .log("登陆成功后导向的完善个人信息的页面的json信息提交失败,alert输出data.msg");
-                                            alert("错误信息："
-                                                + data.msg);
-
-                                        }
-                                    }
-                                })
-								// $(form)
-								// 		.ajaxSubmit(
-								// 				{
-								// 					type : "POST",
-								// 					url : 'http://localhost:8080/updateUserInfo', //登录后修改个人信息
-								// 					data : json,
-                                 //                    contentType:'application/json;charset=utf-8',
-                                 //                    dataType:'json',
-								// 					success : function(data) {
-								// 						if (data.stateCode === "200") {
-								// 							// 修改成功
-								// 							$('#success')
-								// 									.fadeIn();
-								// 							$('#perform')
-								// 									.each(
-								// 											function() {
-								// 												this
-								// 														.reset();
-								// 											});
-								// 							console
-								// 									.log("登陆成功后导向的完善个人信息的页面的json信息提交成功，准备转向系统首页");
-								// 							window.location.href = 'index.html';
-								// 						} else {
-								// 							// 注册失败,错误信息在data.msg里面
-								// 							console
-								// 									.log("登陆成功后导向的完善个人信息的页面的json信息提交失败,alert输出data.msg");
-								// 							alert("错误信息："
-								// 									+ data.msg);
-                                //
-								// 						}
-								// 					},
-								// 					error : function() {
-								// 						$('#perform')
-								// 								.fadeTo(
-								// 										"slow",
-								// 										0,
-								// 										function() {
-								// 											$(
-								// 													'#error')
-								// 													.fadeIn();
-								// 										});
-								// 					}
-								// 				});
+							identity: {
+								required: true,
+								regex: /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/
+							},
+							age: {
+								required: true,
+								regex: /^(?:[1-9][0-9]?|1[01][0-9]|120)$/
 							}
-						});
-			}
-			if (plugins.perForm.length) {
-				var $perform = plugins.perForm;
-				$perform
-						.validate({
-							rules : {
-								trueName : {
-									required : true,
-								},
-								phone : {
-									required : true,
-									minlength : 11
-								},
-								identity : {
-									required : true,
-									minlength : 18
-								},
-								age : {
-									required : true,
-								}
+						},
+						messages: {
+							trueName: {
+								required: "请输入你的姓名",
+								regex: "请输入合法的姓名"
 							},
-							messages : {
-								trueName : {
-									required : "请输入你的姓名",
-								},
-								phone : {
-									required : "请输入你的电话号码",
-									minlength : "你的电话号码应当为11位"
-								},
-								identity : {
-									required : "请输入你的身份证号",
-									minlength : "你的身份证号码应当为18位"
-								},
-								age : {
-									required : "请输入你的年龄",
-								}
+							phone: {
+								required: "请输入你的电话号码",
+								regex: "请输入合法的手机号码",
 							},
-							submitHandler : function(form) {
-								var trueName = $('#trueName').val();
-								var idCardNum = $('#identity').val();
-								var phoneNum = $('#phone').val();
-								var age = $('#age').val();
-								var storage = window.localStorage;
-								var username = storage["username"];
-								var json = {
-									"username": username,
-									"trueName": trueName,
-									"idCardNum": idCardNum,
-									"phoneNum": phoneNum,
-									"age": age
-								};
-                                $.ajax({
-                                    type:"post",
-                                    url:base_url +'/updateUserInfo',
-                                    data:JSON.stringify(json),
-                                    contentType:'application/json;charset=utf-8',
-                                    dataType:'json',
-                                    success: function(data){
-										console.log(data.stateCode);
-                                        if (data.stateCode === 200) {
-                                            // 修改成功
-                                            $('#success')
-                                                .fadeIn();
-                                            $('#perform')
-                                                .each(
-                                                    function() {
-                                                        this
-                                                            .reset();
-                                                    });
-                                            console
-                                                .log("登陆成功后导向的完善个人信息的页面的json信息提交成功，准备转向系统首页");
-                                            window.location.href = 'index.html';
-                                        } else {
-                                            // 注册失败,错误信息在data.msg里面
-                                            console
-                                                .log("登陆成功后导向的完善个人信息的页面的json信息提交失败,alert输出data.msg");
-                                            alert("错误信息："
-                                                + data.msg);
-
-                                        }
-                                    }
-                                })
-								// $(form)
-								// 		.ajaxSubmit(
-								// 				{
-								// 					type : "POST",
-								// 					url : 'http://localhost:8080/updateUserInfo',
-								// 					data : JSON.stringify(json),
-								// 					contentType : 'application/json;charset=utf-8',
-								// 					dataType : 'json',
-								// 					success : function(data) {
-								// 						if (data.stateCode == "200") {
-								// 							// 修改成功
-								// 							$('#success')
-								// 									.fadeIn();
-								// 							$('#perform')
-								// 									.each(
-								// 											function() {
-								// 												this
-								// 														.reset();
-								// 											});
-								// 							console
-								// 									.log("登陆成功后导向的完善个人信息的页面的json信息提交成功，准备转向系统首页");
-								// 							window.location.href = 'index.html';
-								// 						} else {
-								// 							// 注册失败,错误信息在data.msg里面
-								// 							console
-								// 									.log("登陆成功后导向的完善个人信息的页面的json信息提交失败,alert输出data.msg");
-								// 							alert("错误信息："
-								// 									+ data.msg);
-                                //
-								// 						}
-								// 					},
-								// 					error : function() {
-								// 						$('#perform')
-								// 								.fadeTo(
-								// 										"slow",
-								// 										0,
-								// 										function() {
-								// 											$(
-								// 													'#error')
-								// 													.fadeIn();
-								// 										});
-								// 					}
-								// 				});
+							identity: {
+								required: "请输入你的身份证号",
+								regex: "请输入合法的身份证号",
+							},
+							age: {
+								required: "请输入你的年龄",
+								regex: "请输入合法的年龄",
 							}
-						});
+						},
+						submitHandler: function (form) {
+							var trueName = $('#trueName').val();
+							var idCardNum = $('#identity').val();
+							var phoneNum = $('#phone').val();
+							var age = $('#age').val();
+							var storage = window.localStorage;
+							var username = storage["username"];
+							var json = {
+								"username": username,
+								"trueName": trueName,
+								"idCardNum": idCardNum,
+								"phoneNum": phoneNum,
+								"age": age
+							};
+							console.log(json);
+							///
+
+							$.ajax({
+								type: "post",
+								url: base_url + '/updateUserInfo',
+								data: JSON.stringify(json),
+								contentType: 'application/json;charset=utf-8',
+								dataType: 'json',
+								success: function (data) {
+									console.log(data.stateCode);
+									if (data.stateCode === 200) {
+
+										// 修改成功
+										alert("用户信息修改成功，跳转到首页");
+										$('#success')
+											.fadeIn();
+										$('#perform')
+											.each(
+												function () {
+													this
+														.reset();
+												});
+										console
+											.log("登陆成功后导向的完善个人信息的页面的json信息提交成功，准备转向系统首页");
+										window.location.href = 'index.html';
+									} else {
+										// 注册失败,错误信息在data.msg里面
+										console
+											.log("登陆成功后导向的完善个人信息的页面的json信息提交失败,alert输出data.msg");
+										alert("错误信息："
+											+ data.msg);
+
+									}
+								}
+							})
+							// $(form)
+							// 		.ajaxSubmit(
+							// 				{
+							// 					type : "POST",
+							// 					url : 'http://localhost:8080/updateUserInfo', //登录后修改个人信息
+							// 					data : json,
+							//                    contentType:'application/json;charset=utf-8',
+							//                    dataType:'json',
+							// 					success : function(data) {
+							// 						if (data.stateCode === "200") {
+							// 							// 修改成功
+							// 							$('#success')
+							// 									.fadeIn();
+							// 							$('#perform')
+							// 									.each(
+							// 											function() {
+							// 												this
+							// 														.reset();
+							// 											});
+							// 							console
+							// 									.log("登陆成功后导向的完善个人信息的页面的json信息提交成功，准备转向系统首页");
+							// 							window.location.href = 'index.html';
+							// 						} else {
+							// 							// 注册失败,错误信息在data.msg里面
+							// 							console
+							// 									.log("登陆成功后导向的完善个人信息的页面的json信息提交失败,alert输出data.msg");
+							// 							alert("错误信息："
+							// 									+ data.msg);
+							//
+							// 						}
+							// 					},
+							// 					error : function() {
+							// 						$('#perform')
+							// 								.fadeTo(
+							// 										"slow",
+							// 										0,
+							// 										function() {
+							// 											$(
+							// 													'#error')
+							// 													.fadeIn();
+							// 										});
+							// 					}
+							// 				});
+						}
+					});
 			}
 
 			// Resize window events
