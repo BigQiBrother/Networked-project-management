@@ -36,12 +36,11 @@ public class OrderServiceImpl implements OrderService {
         if(orderdata!=null){
 
             for(Order i:orderdata) {
-                if (i.getStatus() == 0)
-                    continue;
                 OrderReturn orderReturn = new OrderReturn();
                 person = orderDao.getPersoninf(i.getPersonId());
                 trips = tripsDao.gettrips(i.getCarInfoId());
                 orderReturn.setId(i.getId());
+                orderReturn.setOrderTime(i.getOrderTime());
                 orderReturn.setTrueName(person.getTrueName());
                 orderReturn.setIdCardNum(person.getIdCardNum());
                 orderReturn.setPhoneNum(person.getPhoneNum());
@@ -54,7 +53,9 @@ public class OrderServiceImpl implements OrderService {
                 orderReturn.setReachTime(trips.getReachTime());
                 orderReturn.setChangeTimes(i.getChangeTimes());
                 orderReturn.setSeat(i.getSeat());
-                if (i.getStatus() == 1) {
+                if (i.getStatus() == 0) {
+                    orderReturn.setStatus("未支付");
+                } else if (i.getStatus() == 1) {
                     orderReturn.setStatus("已支付");
                 } else if (i.getStatus() == 2) {
                     orderReturn.setStatus("已退票");

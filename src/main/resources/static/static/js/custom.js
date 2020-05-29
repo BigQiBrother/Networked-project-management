@@ -508,7 +508,6 @@ $document
 							alert("请先选票");
 							return;
 						}
-
 						var startTime = $('#startTime').val();
 						var seat = $('#seat').val();
 						var json = {
@@ -517,58 +516,77 @@ $document
 							"startTime": startTime,
 							"seat": seat
 						};
-						$.ajax({
-							type: "post",
-							url: base_url + '/buyticket',
-							data: JSON.stringify(json),
-							contentType: 'application/json;charset=utf-8',
-                            dataType:'json',
-                            success: function(data){
-                                if (data.stateCode === 200) {
-									// 付款成功
-									console.log("成功付款转向订单页面");
-
-									alert("请前往订单信息查看");
-									$("#trueName").val('');
-									$("#phone").val('');
-									$("#identity").val('');
-									// console.log(ticketItem)
-									$("#carNum").val('');
-									$("#orginLocation").val('');
-									$("#destinationLocation").val('');
-									$("#startTime").val('');
-									$("#reachTime").val('');
-									$("#ticketPrice").val('');
-									$("#seat").val('1');
-									// window.location.href = 'orderForm.html';
+						bootbox.confirm({
+							size: "small",
+							message: "是否提交订单",
+							buttons: {
+								confirm: {
+									label: '确认',
+									className: ''
+								},
+								cancel: {
+									label: '取消',
+									className: ''
 								}
-                                else{
-                                    // 付款失败,错误信息在data.msg里面
-                                    alert("错误信息：" + data.msg);
-                                }
-                            }
-                        })
-						// $(form).ajaxSubmit({
-						// 	type : 'POST',
-						// 	url : 'http://localhost:8080/paymoney',
-						// 	data : JSON.stringify(json),
-						// 	contentType : 'application/json;charset=utf-8',
-						// 	dataType : 'json',
-						// 	success : function(data) {
-						// 		if (data.stateCode == "200") {
-						// 			// 付款成功
-						// 			console.log("成功付款转向订单页面");
-						// 			window.location.href = 'orderForm.html';
-						// 		} else {
-						// 			// 付款失败,错误信息在data.msg里面
-						// 			alert("错误信息：" + data.msg);
-                        //
-						// 		}
-						// 	},
-						// 	error : function() {
-                        //
-						// 	}
-						// });
+							},
+							callback(result) {
+								if (result) {
+									$.ajax({
+										type: "post",
+										url: base_url + '/buyticket',
+										data: JSON.stringify(json),
+										contentType: 'application/json;charset=utf-8',
+										dataType: 'json',
+										success: function (data) {
+											if (data.stateCode === 200) {
+												// 付款成功
+												console.log("成功付款转向订单页面");
+
+												alert("请前往订单信息查看");
+												$("#trueName").val('');
+												$("#phone").val('');
+												$("#identity").val('');
+												// console.log(ticketItem)
+												$("#carNum").val('');
+												$("#orginLocation").val('');
+												$("#destinationLocation").val('');
+												$("#startTime").val('');
+												$("#reachTime").val('');
+												$("#ticketPrice").val('');
+												$("#seat").val('1');
+												// window.location.href = 'orderForm.html';
+											} else {
+												// 付款失败,错误信息在data.msg里面
+												alert("错误信息：" + data.msg);
+											}
+										}
+									})
+									// $(form).ajaxSubmit({
+									// 	type : 'POST',
+									// 	url : 'http://localhost:8080/paymoney',
+									// 	data : JSON.stringify(json),
+									// 	contentType : 'application/json;charset=utf-8',
+									// 	dataType : 'json',
+									// 	success : function(data) {
+									// 		if (data.stateCode == "200") {
+									// 			// 付款成功
+									// 			console.log("成功付款转向订单页面");
+									// 			window.location.href = 'orderForm.html';
+									// 		} else {
+									// 			// 付款失败,错误信息在data.msg里面
+									// 			alert("错误信息：" + data.msg);
+									//
+									// 		}
+									// 	},
+									// 	error : function() {
+									//
+									// 	}
+									// });
+								} else {
+
+								}
+							}
+						})
 					}
 				});
 			}
@@ -1344,6 +1362,7 @@ $window.on('load', function() {
 function change() {
 	if ($("#trueName").val() == "")
 		return;
+	$("#seat").removeAttrs("disabled");
 	//需要添加数据项的是changeTable
 	var json = {
 		"orginLocation": '',

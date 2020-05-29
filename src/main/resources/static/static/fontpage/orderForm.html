@@ -190,11 +190,8 @@
             <div class="col-sm-7 col-md-8">
                 <form class="contact-form"
                 >
-                    <div id="success">
-                        <p>您的信息更新成功！</p>
-                    </div>
-                    <div id="error">
-                        <p>信息更新出错！请再次提交！</p>
+                    <div hidden id="info">
+                        <p>请您尽快完成支付，否则订单会自动取消！支付剩余时间：<span id="time"></span></p>
                     </div>
                     <div class="inputs-col">
                         <div class="row">
@@ -292,13 +289,21 @@
                                         class="input-custom input-full" hidden id="changeTimes" type="text">
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="input-wrapper"><input
+                                        class="input-custom input-full" hidden id="tt" type="text">
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                    <div class="btn btn-border" id="buy" onclick="buy()">
+                        <i class="icon icon-lightning"></i><span>支付</span>
+                    </div>
+                    <div class="btn btn-border" id="change" onclick="change()">
+                        <i class="icon icon-lightning"></i><span>改签</span>
                     </div>
                     <div class="btn btn-border" onclick="refund1()">
                         <i class="icon icon-lightning"></i><span>退票</span>
-                    </div>
-                    <div class="btn btn-border" id="change" onclick="change()" style="margin-left: 20px">
-                        <i class="icon icon-lightning"></i><span>改签</span>
                     </div>
                 </form>
             </div>
@@ -411,6 +416,8 @@
 <script src="../js/plugins/slick.min.js"></script>
 <script src="../js/plugins/jquery.form.js"></script>
 <script src="../js/plugins/jquery.validate.min.js"></script>
+<script src="../js/plugins/bootbox.min.js"></script>
+<script src="../js/plugins/bootbox.locales.min.js"></script>
 <script src="../js/custom.js"></script>
 <script language="JavaScript">
     fillerIn();
@@ -477,10 +484,59 @@
         }
     });
 
+    function buy() {
+        if ($("#trueName").val() == "")
+            return;
+        if ($("#buy").attr("disabled") != null)
+            return;
+        var json = {
+            "carNum": $("#carNum").val(),
+            "startTime": $("#startTime").val(),
+            "orderId": Number.parseInt($("#orderId").val())
+        };
+        bootbox.confirm({
+            size: "small",
+            message: "是否支付订单",
+            buttons: {
+                confirm: {
+                    label: '确认',
+                    className: ''
+                },
+                cancel: {
+                    label: '取消',
+                    className: ''
+                }
+            },
+            callback(result) {
+                if (result) {
+                    $.ajax({
+                        type: 'POST',
+                        url: base_url + '/paymoney',
+                        data: JSON.stringify(json),
+                        contentType: 'application/json;charset=utf-8',
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.stateCode == "200") {
+                                // 个人信息查询成功
+                                console.log("支付成功");
+                                window.location.href = 'orderForm.html';
+                            } else
+                                // 查询失败,错误信息在data.msg里面（未填写个人信息，请完善个人信息）
+                                alert("错误信息：" + data.msg)
+                        }
+                    })
+                } else {
+
+                }
+            }
+        })
+    }
+
 
     function refund1() {
         if ($("#trueName").val() == "")
             return;
+
         console.log("实现用户退票的操作");
         //获取身份证号，车次号，出发时间，始发地
         // var idCardNum = $("#identity").val();
@@ -511,6 +567,25 @@
                     alert("错误信息：" + data.msg)
             }
         })
+    }
+
+    var timeobj;
+
+    function clock() {
+        let residue = new Date().getTime() - new Date($("#tt").val()).getTime();
+        if (residue >= 1800000) {
+            $("#info span").html("订单已自动取消");
+            window.clearTimeout(timeobj);
+            $("#buy span").html("已取消");
+            $("#buy").attr("disabled", "disabled")
+        } else {
+            residue = 1800000 - residue;
+            var minute = Math.floor(residue / (1000 * 60)) % 60;
+            var second = Math.floor(residue / 1000) % 60;
+            $("#info span").html(`${minute}分钟:${second}秒`);
+            $("#buy span").html("支付");
+            $("#buy").removeAttrs("disabled")
+        }
     }
 
     function orderDetail(i) {
@@ -544,16 +619,29 @@
         $("#orderId").val(data.id);
         $("#changeTimes").val(data.changeTimes);
         $("#seat").val(data.seat);
-        if (data.status == "已退票") {
+        $(".btn").hide();
+        $("#tt").val(data.orderTime);
+        $("#seat").attr("disabled", "disabled");
+        $("#changeTable tbody").html('');
+        $("#info").hide();
+        window.clearTimeout(timeobj);
+        console.log(data.status);
+        if (data.status == "未支付") {
+            $("#buy").show();
+            $("#info").show();
+            timeobj = setInterval("clock()", 1000)
+        } else if (data.status == "已退票") {
             $(".btn").hide()
         } else {
-            $(".btn").show()
+            $("#change").show();
+            $("#change").next().show()
         }
+
     }
 
     function changeTrip(tripId) {
-        if ($("#changeTimes").val() == 3) {
-            alert("仅允许改签3次");
+        if ($("#changeTimes").val() == 1) {
+            alert("仅允许改签1次");
             return;
         }
 

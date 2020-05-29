@@ -18,6 +18,16 @@ public class OrderReturn {
     private int seat;
     private int changeTimes;
 
+    private String orderTime;
+
+    public String getOrderTime() {
+        return orderTime;
+    }
+
+    public void setOrderTime(String orderTime) {
+        this.orderTime = orderTime;
+    }
+
     public int getSeat() {
         return seat;
     }

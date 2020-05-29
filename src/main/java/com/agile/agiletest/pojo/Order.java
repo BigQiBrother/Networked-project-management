@@ -14,6 +14,7 @@ public class Order {
     //0是预定未付款， 1是已经支付， 2是退票
     private int status;
     private int seat;
+    private String orderTime;
 
     //    public Order(int id, int carInfoId, int personId, int changeTimes, int status) {
 //        this.id = id;
@@ -27,6 +28,14 @@ public class Order {
         this.personId = personId;
         this.changeTimes = changeTimes;
         this.seat = seat;
+    }
+
+    public String getOrderTime() {
+        return orderTime;
+    }
+
+    public void setOrderTime(String orderTime) {
+        this.orderTime = orderTime;
     }
 
     public int getSeat() {

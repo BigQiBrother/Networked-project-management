@@ -32,6 +32,6 @@ public class MQReceiver {
         //进入购票service
         Result result = tripsService.buyTicket(message.getUsername(), carInfoId, message.getCarNum(), message.getSeat());
         Order order = (Order) ((Map<String, Object>) result.getData()).get("order");
-        tripsService.payMoney(order.getId());
+//        tripsService.payMoney(order.getId());
     }
 }

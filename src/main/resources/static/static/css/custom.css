@@ -4332,10 +4332,43 @@ Skin Name: Nivo Slider Default Theme
 }
 
 .bulb-img > img {
-    width: 370px;
-    height: 500px;
+  width: 370px;
+  height: 500px;
 }
 
-input[disabled] {
-    color: #aaa;
+input[disabled], select[disabled] {
+  color: #aaa;
+}
+
+.btn-default {
+  color: #333 !important;
+  background-color: #fff !important;
+  border-color: #ccc;
+}
+
+.btn-primary {
+  color: #fff !important;
+  background-color: #f47629 !important;
+  border-color: #f47629 !important;
+}
+
+.bootbox-cancel {
+  color: #333 !important;
+  background-color: #fff !important;
+  border-color: #ccc;
+}
+
+.bootbox-success {
+  color: #fff !important;
+  background-color: #f47629 !important;
+  border-color: #f47629 !important;
+}
+
+.bootbox-success:active {
+  background: #fff !important;
+  color: #000000 !important;
+}
+
+#time {
+  color: red;
 }

@@ -54,6 +54,6 @@ public interface TripsService {
      * @param orderId
      * @return
      */
-    Result payMoney(int orderId);
+    Result payMoney(int orderId, Trips trips);
 
 }

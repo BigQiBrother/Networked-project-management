@@ -15,7 +15,7 @@ public interface OrderDao {
      * @param order
      * @return
      */
-    @Insert("INSERT INTO `order` (car_info_id, person_id, change_times, status,seat) VALUES (#{carInfoId}, #{personId}, #{changeTimes}, #{status},#{seat})\n" +
+    @Insert("INSERT INTO `order` (car_info_id, person_id, change_times, status,seat,order_time) VALUES (#{carInfoId}, #{personId}, #{changeTimes}, #{status},#{seat},now())\n" +
             "    ")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     void buyTicket(Order order);

@@ -6,6 +6,7 @@ import com.agile.agiletest.config.data.DataSourceNames;
 import com.agile.agiletest.config.mq.MQSender;
 import com.agile.agiletest.dao.TripsDao;
 import com.agile.agiletest.dao.UserDao;
+import com.agile.agiletest.pojo.Trips;
 import com.agile.agiletest.pojo.myMessage;
 import com.agile.agiletest.service.TripsService;
 import com.alibaba.fastjson.JSONObject;
@@ -77,8 +78,11 @@ public class TicketController {
 
     @PostMapping("/paymoney")
     @DataSource(DataSourceNames.ONE)
-    public Result payMoney(@RequestBody JSONObject data){
+    public Result payMoney(@RequestBody JSONObject data) {
         int orderId = data.getInteger("orderId");
-        return tripsService.payMoney(orderId);
+        String carNum = data.getString("carNum");
+        String startTime = data.getString("startTime");
+        Trips trips = tripsDao.getTripsInfoByCarNumAndStartTime(carNum, startTime);
+        return tripsService.payMoney(orderId, trips);
     }
 }
