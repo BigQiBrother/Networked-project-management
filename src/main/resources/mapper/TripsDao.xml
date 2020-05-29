@@ -22,6 +22,13 @@
             <if test="ticketPrice!=''">
                 and ticket_price=#{ticketPrice}
             </if>
+            <if test="orginLocation!=''">
+                and orgin_location=#{orginLocation}
+            </if>
+            <if test="destinationLocation!=''">
+                and destination_location=#{destinationLocation}
+            </if>
+
         </where>
     </select>
 

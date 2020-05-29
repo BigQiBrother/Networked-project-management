@@ -1365,9 +1365,9 @@ function change() {
 	$("#seat").removeAttrs("disabled");
 	//需要添加数据项的是changeTable
 	var json = {
-		"orginLocation": '',
-		"destinationLocation": '',
-		"startTime": ''
+		"orginLocation": $("#orginLocation").val(),
+		"destinationLocation": $("#destinationLocation").val(),
+		"startTime": '',
 	};
 	$.ajax({
 		type: "post",
