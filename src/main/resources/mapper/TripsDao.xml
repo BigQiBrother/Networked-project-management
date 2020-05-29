@@ -10,8 +10,9 @@
     <select id="getAlltrips" resultType="com.agile.agiletest.pojo.Trips" parameterType="com.agile.agiletest.pojo.Trips">
         select * from trips
         <where>
+            start_time>now()
             <if test="orginLocation!=''">
-                orgin_location=#{orginLocation}
+                and orgin_location=#{orginLocation}
             </if>
             <if test="destinationLocation!=''">
                 and destination_location=#{destinationLocation}
@@ -28,8 +29,8 @@
             <if test="destinationLocation!=''">
                 and destination_location=#{destinationLocation}
             </if>
-
         </where>
+        order by start_time
     </select>
 
 

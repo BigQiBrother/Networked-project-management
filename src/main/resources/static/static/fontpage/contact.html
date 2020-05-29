@@ -181,18 +181,23 @@
 									</div>
 									<div class="col-md-6">
 										<div class="input-wrapper">
-											<label>电话</label>
-											<input type="text" class="input-custom input-full" id="phone" name="phone" placeholder="你的电话">
+											<label>电话 <span class="required">*</span></label>
+											<input class="input-custom input-full" id="phone" name="phone"
+												   placeholder="你的电话"
+												   type="text">
 										</div>
 									</div>
 								</div>
 								<div class="input-wrapper">
-									<label>身份证</label>
-									<input type="text" class="input-custom input-full" id="identity" name="identity" placeholder="你的身份证号">
+									<label>身份证 <span class="required">*</span></label>
+									<input class="input-custom input-full" id="identity" name="identity"
+										   placeholder="你的身份证号"
+										   type="text">
 								</div>
 								<div class="input-wrapper">
-									<label>年龄</label>
-									<input type="text" class="input-custom input-full" id="age" name="age" placeholder="你的年龄">
+									<label>年龄 <span class="required">*</span></label>
+									<input class="input-custom input-full" id="age" name="age" placeholder="你的年龄"
+										   type="text">
 								</div>
 							</div>
 							<button type="submit" id="submit" class="btn btn-border"><i class="icon icon-lightning"></i><span>修改信息</span></button>
@@ -352,67 +357,70 @@
 	<script src="../js/plugins/jquery.validate.min.js"></script>
 	<script src="../js/custom.js"></script>
 	<script language="JavaScript">
-        fillerIn()
-			function updatePassword() {
-                var username = $("#username").val();
-                var passwordOld = $("#passwordOld").val();
-                var passwordNew = $("#passwordNew").val();
-                var json = {
-                    "username" : username,
-                    "passwordOld" : passwordOld,
-                    "passwordNew" : passwordNew
-                }
-                console.log(json)
+		fillerIn();
+
+		function updatePassword() {
+			var username = $("#username").val();
+			var passwordOld = $("#passwordOld").val();
+			var passwordNew = $("#passwordNew").val();
+			var json = {
+				"username": username,
+				"passwordOld": passwordOld,
+				"passwordNew": passwordNew
+			};
+			console.log(json);
 
 
-                $.ajax({
-                    type:"post",
-                    url:base_url +'/updatePassword',
-                    data:JSON.stringify(json),
-                    contentType:'application/json;charset=utf-8',
-                    dataType:'json',
-                    success : function(data) {
-                        if (data.stateCode === "200") {
-                            // 密码修改成功
-                            console.log("密码修改成功转向登陆页面");
-                            window.localStorage.clear();
-                            window.location.href = 'login.html';
-                        } else {
-                            // 付款失败,错误信息在data.msg里面
-                            alert("错误信息：" + data.msg);
+			$.ajax({
+				type: "post",
+				url: base_url + '/updatePassword',
+				data: JSON.stringify(json),
+				contentType: 'application/json;charset=utf-8',
+				dataType: 'json',
+				success: function (data) {
+					if (data.stateCode === "200") {
+						// 密码修改成功
+						console.log("密码修改成功转向登陆页面");
+						window.localStorage.clear();
+						window.location.href = 'login.html';
+					} else {
+						// 付款失败,错误信息在data.msg里面
+						alert("错误信息：" + data.msg);
 
-                        }
-                    }
-                })
-            }
-            this.perInfo()
-            function perInfo() {
-                var storage = window.localStorage;
-                var username = storage["username"];
-                // ajax传递数据
-                var json = {
-                    "username" : username
-                } // 这里的orderId是指订单id,tripsId是指新车票的id
-                // ajax提交数据
-                $.ajax({
-                    type : 'POST',
-                    url : base_url + '/getpersoninfo',
-                    data : JSON.stringify(json),
-                    contentType : 'application/json;charset=utf-8',
-                    dataType : 'json',
-                    success : function(data) {
-                        if (data.stateCode === 200) {
-                            // 个人信息查询成功
-                            console.log("查询个人信息成功，呈现到个人信息的页面当中");
-                            $("#trueName").val(data.data.trueName);
-                            $("#phone").val(data.data.phoneNum);
-                            $("#identity").val(data.data.idCardNum);
-                            $("#age").val(data.data.age);
-                        } else
-                        // 查询失败,错误信息在data.msg里面（未填写个人信息，请完善个人信息）
-                            alert("错误信息：" + data.msg)
-                    }
-                })
+					}
+				}
+			})
+		}
+
+		this.perInfo();
+
+		function perInfo() {
+			var storage = window.localStorage;
+			var username = storage["username"];
+			// ajax传递数据
+			var json = {
+				"username": username
+			}; // 这里的orderId是指订单id,tripsId是指新车票的id
+			// ajax提交数据
+			$.ajax({
+				type: 'POST',
+				url: base_url + '/getpersoninfo',
+				data: JSON.stringify(json),
+				contentType: 'application/json;charset=utf-8',
+				dataType: 'json',
+				success: function (data) {
+					if (data.stateCode === 200) {
+						// 个人信息查询成功
+						console.log("查询个人信息成功，呈现到个人信息的页面当中");
+						$("#trueName").val(data.data.trueName);
+						$("#phone").val(data.data.phoneNum);
+						$("#identity").val(data.data.idCardNum);
+						$("#age").val(data.data.age);
+					} else
+							// 查询失败,错误信息在data.msg里面（未填写个人信息，请完善个人信息）
+						alert("错误信息：" + data.msg)
+				}
+			})
                 // window.location.href = 'contact.html';
             }
 	</script>

@@ -431,11 +431,12 @@ $document
 							minlength : 11
 						},
 						identity : {
-							required : true,
-							minlength : 18
+							required: true,
+							minlength: 18,
 						},
 						age : {
 							required : true,
+
 						}
 					},
 					messages : {
@@ -795,15 +796,17 @@ $document
 									required : true,
 								},
 								phone : {
-									required : true,
-									minlength : 11
+									required: true,
+									minlength: 11,
+									digits: true
 								},
 								identity : {
 									required : true,
 									minlength : 18
 								},
 								age : {
-									required : true,
+									required: true,
+									digits: true
 								}
 							},
 							messages : {
@@ -811,15 +814,17 @@ $document
 									required : "请输入你的姓名",
 								},
 								phone : {
-									required : "请输入你的电话号码",
-									minlength : "你的电话号码应当为11位"
+									required: "请输入你的电话号码",
+									minlength: "你的电话号码应当为11位",
+									digits: "请输入合法的手机号码"
 								},
 								identity : {
 									required : "请输入你的身份证号",
 									minlength : "你的身份证号码应当为18位"
 								},
 								age : {
-									required : "请输入你的年龄",
+									required: "请输入你的年龄",
+									digits: "请输入合法的年龄"
 								}
 							},
 							submitHandler : function(form) {
