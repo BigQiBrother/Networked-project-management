@@ -1,10 +1,9 @@
-网络化项目管理大作业，仅供学习使用（agiltest文件夹为项目源代码）
+网络化项目管理大作业，仅供学习使用
 
+项目名：12307火车票订票系统
 
-项目名：火车订票系统
-
-技术使用：后端Springboot + Mybatis + Maven包管理 
-	  前端：原生html + js + css + jquery
+技术栈：后端Springboot + Mybatis + Maven包管理 
+	前端：原生html + js + css + jquery
 
 JKD版本：1.8
 
@@ -24,22 +23,13 @@ mysql版本：8
 访问前需要修改网页请求的base_url，保证请求畅通
 
 
-
-
 base_url 在项目文件的相对位置：agiletest\src\main\resources\static\static\js    下，自行定制修改
  
+使用maven导包运行
 
-在静态资源文件custom.js以及loginJS.js的头部修改  var base_url = "http://localhost:8080";（这里为默认的请求基地址）
-
-该项目部分静态资源需要联网获取，打开浏览器访问前，请保证网络畅通，否则可能出现一些页面样式丢失等问题
-
-确保上述正确后，即可打开项目(以agiletest文件夹为根目录)，使用maven导包运行
+访问地址：http://localhost:8080/static/fontpage/login.html
 
 
-访问地址：
-http://localhost:8080/static/fontpage/login.html
-
-大家觉得好用的话，给颗星星呗~~~~~
 
 
 
