@@ -550,7 +550,7 @@ $document
 												// 付款成功
 												console.log("成功付款转向订单页面");
 
-												alert("请前往订单信息查看");
+												// alert("请前往订单信息查看");
 												$("#trueName").val('');
 												$("#phone").val('');
 												$("#identity").val('');
@@ -562,7 +562,7 @@ $document
 												$("#reachTime").val('');
 												$("#ticketPrice").val('');
 												$("#seat").val('1');
-												// window.location.href = 'orderForm.html';
+												window.location.href = 'orderForm.html';
 											} else {
 												// 付款失败,错误信息在data.msg里面
 												alert("错误信息：" + data.msg);
@@ -608,11 +608,12 @@ $document
 								var destinationLocation = $("#target").val();
 								var startTime = $("#date").val();
 								var price = $("#price").val();
+								var endTime = $("#enddate").val();
 								var json = {
 									"orginLocation": orginLocation,
 									"destinationLocation": destinationLocation,
 									"startTime": startTime,
-									"ticketPrice": price
+									"reachTime": endTime
 								};
 
 								$.ajax({

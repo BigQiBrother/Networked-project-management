@@ -20,6 +20,9 @@
             <if test="startTime!=''">
                 and start_time like CONCAT('%',#{startTime},'%')
             </if>
+            <if test="reachTime!=''">
+                and reach_time like CONCAT('%',#{reachTime},'%')
+            </if>
             <if test="ticketPrice!=''">
                 and ticket_price=#{ticketPrice}
             </if>
