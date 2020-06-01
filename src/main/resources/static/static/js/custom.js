@@ -562,7 +562,9 @@ $document
 												$("#reachTime").val('');
 												$("#ticketPrice").val('');
 												$("#seat").val('1');
-												window.location.href = 'orderForm.html';
+												setTimeout(()=>{
+													window.location.href = 'orderForm.html';
+												},1000)
 											} else {
 												// 付款失败,错误信息在data.msg里面
 												alert("错误信息：" + data.msg);
@@ -1269,6 +1271,7 @@ function change() {
 					"orginLocation": $("#orginLocation").val(),
 					"destinationLocation": $("#destinationLocation").val(),
 					"startTime": '',
+					"reachTime": '',
 				};
 				$.ajax({
 					type: "post",
