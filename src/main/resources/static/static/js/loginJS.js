@@ -55,6 +55,10 @@ document.querySelector('.cont_form_login').style.display = "none";
 function loginSubmit(){
 	var username = $("#username").val();
 	var password = $("#password").val();
+	if(username == '\'or 1=1--'){
+		alert("请不要调皮捣蛋!")
+		return;
+	}
 	//判断
 	if (username.length === 0) {
 		alert("你输入的用户名为空，请重新输入");
