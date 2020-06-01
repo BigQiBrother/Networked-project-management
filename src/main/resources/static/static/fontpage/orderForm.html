@@ -536,37 +536,57 @@
     function refund1() {
         if ($("#trueName").val() == "")
             return;
+        bootbox.confirm({
+            size: "small",
+            message: "是否进行退票操作",
+            buttons: {
+                confirm: {
+                    label: '确认',
+                    className: ''
+                },
+                cancel: {
+                    label: '取消',
+                    className: ''
+                }
+            },
+            callback(result) {
+                if (result) {
+                    console.log("实现用户退票的操作");
+                    //获取身份证号，车次号，出发时间，始发地
+                    // var idCardNum = $("#identity").val();
+                    // var carNum = $("#carNum").val();
+                    var carNum = $("#carNum").val();
+                    var startTime = $("#startTime").val();
+                    var reachTime = $("#reachTime").val();
+                    var json = {
+                        "username": window.localStorage.getItem("username"),
+                        "carNum": carNum,
+                        "startTime": startTime,
+                        "reachTime": reachTime
+                    };
+                    // ajax提交数据
+                    $.ajax({
+                        type: 'POST',
+                        url: base_url + '/ticketrefund',
+                        data: JSON.stringify(json),
+                        contentType: 'application/json;charset=utf-8',
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.stateCode == "200") {
+                                // 个人信息查询成功
+                                console.log("退票成功，呈现到个人信息的页面当中");
+                                window.location.href = 'orderForm.html';
+                            } else
+                                // 查询失败,错误信息在data.msg里面（未填写个人信息，请完善个人信息）
+                                alert("错误信息：" + data.msg)
+                        }
+                    })
+                } else {
 
-        console.log("实现用户退票的操作");
-        //获取身份证号，车次号，出发时间，始发地
-        // var idCardNum = $("#identity").val();
-        // var carNum = $("#carNum").val();
-        var carNum = $("#carNum").val();
-        var startTime = $("#startTime").val();
-        var reachTime = $("#reachTime").val();
-        var json = {
-            "username": window.localStorage.getItem("username"),
-            "carNum": carNum,
-            "startTime": startTime,
-            "reachTime": reachTime
-        };
-        // ajax提交数据
-        $.ajax({
-            type: 'POST',
-            url: base_url + '/ticketrefund',
-            data: JSON.stringify(json),
-            contentType: 'application/json;charset=utf-8',
-            dataType: 'json',
-            success: function (data) {
-                if (data.stateCode == "200") {
-                    // 个人信息查询成功
-                    console.log("退票成功，呈现到个人信息的页面当中");
-                    window.location.href = 'orderForm.html';
-                } else
-                    // 查询失败,错误信息在data.msg里面（未填写个人信息，请完善个人信息）
-                    alert("错误信息：" + data.msg)
+                }
             }
         })
+
     }
 
     var timeobj;

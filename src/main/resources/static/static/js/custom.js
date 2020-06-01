@@ -1247,68 +1247,89 @@ $window.on('load', function() {
 function change() {
 	if ($("#trueName").val() == "")
 		return;
-	$("#seat").removeAttrs("disabled");
-	//需要添加数据项的是changeTable
-	var json = {
-		"orginLocation": $("#orginLocation").val(),
-		"destinationLocation": $("#destinationLocation").val(),
-		"startTime": '',
-	};
-	$.ajax({
-		type: "post",
-		url: base_url + '/getalltrips',
-		data: JSON.stringify(json),
-		contentType: 'application/json;charset=utf-8',
-		dataType: 'json',
-		success: function (data) {
-			if (data.stateCode === 200) {
-				// window.localStorage.setItem("ticketItem", JSON.stringify(data.data));
-				$("#changeTable tbody").html('');
-				// $("#ticketTable").html("");
-				// 修改成功
-				console.log(data.data[0]);
-				// 在表格中呈现数据
-				for (var i = 0; i < data.data.length; i++) {
-					var tr;
-					tr = '<td>'
-						+ data.data[i].orginLocation
-						+ '</td>'
-						+ '<td>'
-						+ data.data[i].startTime
-						+ '</td>'
-						+ '<td>'
-						+ data.data[i].destinationLocation
-						+ '</td>'
-						+ '<td>'
-						+ data.data[i].reachTime
-						+ '</td>'
-						+ '<td>'
-						+ data.data[i].carNum
-						+ '</td>'
-						+ '<td>'
-						+ data.data[i].ticketPrice
-						+ '</td>'
-						+ '<td>'
-						+ data.data[i].ticketNum
-						+ '</td>'
-						+ '<td>'
-						+ '<button onclick="changeTrip(' + data.data[i].id + ')">改签</button>'
-						+ '</td>';
-					$("#changeTable tbody")
-						.append(
-							'<tr>'
-							+ tr
-							+ '</tr>');
-				}
-
-			} else {
-				// 注册失败,错误信息在data.msg里面
-				alert("错误信息："
-					+ data.msg);
-
+	bootbox.confirm({
+		size: "small",
+		message: "是否进行改签操作",
+		buttons: {
+			confirm: {
+				label: '确认',
+				className: ''
+			},
+			cancel: {
+				label: '取消',
+				className: ''
 			}
 		},
+		callback(result) {
+			if (result) {
+				$("#seat").removeAttrs("disabled");
+				//需要添加数据项的是changeTable
+				var json = {
+					"orginLocation": $("#orginLocation").val(),
+					"destinationLocation": $("#destinationLocation").val(),
+					"startTime": '',
+				};
+				$.ajax({
+					type: "post",
+					url: base_url + '/getalltrips',
+					data: JSON.stringify(json),
+					contentType: 'application/json;charset=utf-8',
+					dataType: 'json',
+					success: function (data) {
+						if (data.stateCode === 200) {
+							// window.localStorage.setItem("ticketItem", JSON.stringify(data.data));
+							$("#changeTable tbody").html('');
+							// $("#ticketTable").html("");
+							// 修改成功
+							console.log(data.data[0]);
+							// 在表格中呈现数据
+							for (var i = 0; i < data.data.length; i++) {
+								var tr;
+								tr = '<td>'
+									+ data.data[i].orginLocation
+									+ '</td>'
+									+ '<td>'
+									+ data.data[i].startTime
+									+ '</td>'
+									+ '<td>'
+									+ data.data[i].destinationLocation
+									+ '</td>'
+									+ '<td>'
+									+ data.data[i].reachTime
+									+ '</td>'
+									+ '<td>'
+									+ data.data[i].carNum
+									+ '</td>'
+									+ '<td>'
+									+ data.data[i].ticketPrice
+									+ '</td>'
+									+ '<td>'
+									+ data.data[i].ticketNum
+									+ '</td>'
+									+ '<td>'
+									+ '<button onclick="changeTrip(' + data.data[i].id + ')">改签</button>'
+									+ '</td>';
+								$("#changeTable tbody")
+									.append(
+										'<tr>'
+										+ tr
+										+ '</tr>');
+							}
+
+						} else {
+							// 注册失败,错误信息在data.msg里面
+							alert("错误信息："
+								+ data.msg);
+
+						}
+					},
+				})
+			} else {
+
+			}
+		}
 	})
+
 
 }
 
