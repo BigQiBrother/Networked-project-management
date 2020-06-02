@@ -12,12 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 
-/**
- * 数据源AOP切面处理
- *
- * @author geYang
- * @date 2018-05-14
- */
+
 @Aspect
 @Component
 public class DataSourceAspect implements Ordered {

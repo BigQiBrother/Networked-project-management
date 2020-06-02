@@ -1,11 +1,6 @@
 package com.agile.agiletest.pojo;
 
-/**
- * person 类
- * 用户对person信息持久化
- * @author wangchang
- * @version 0.1
- */
+
 public class Person {
     private int id;
     private String trueName;

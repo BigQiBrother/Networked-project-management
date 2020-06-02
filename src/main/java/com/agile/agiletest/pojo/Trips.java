@@ -1,10 +1,6 @@
 package com.agile.agiletest.pojo;
 
-/**
- * 用于查询车票信息
- * @author 41688
- * @version 1.0
-* */
+
 public class Trips {
     private int id;
     private String orginLocation;

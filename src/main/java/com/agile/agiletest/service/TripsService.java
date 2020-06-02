@@ -3,12 +3,6 @@ import com.agile.agiletest.Result.Result;
 import com.agile.agiletest.pojo.Trips;
 
 
-
-/**
- * 查询车票信息
- * @author 41688
- * @version 1.0
- */
 public interface TripsService {
     /**
      * 查询所有车票信息
