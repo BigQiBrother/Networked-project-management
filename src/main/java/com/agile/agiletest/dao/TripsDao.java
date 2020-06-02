@@ -68,7 +68,7 @@ public interface TripsDao {
      * @param trips
      * @return
      */
-    @Update(" <script> update trips set <if test='ticketNum != 0'> ticket_num = #{ticketNum}</if>" +
+    @Update(" <script> update trips set <if test='ticketNum != -1'> ticket_num = #{ticketNum}</if>" +
             "where id = #{id} </script>")
     int updateTrips(Trips trips);
 

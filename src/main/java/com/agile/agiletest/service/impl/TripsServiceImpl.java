@@ -131,7 +131,11 @@ public class TripsServiceImpl implements TripsService {
     @Transactional
     public Result payMoney(int orderId, Trips trips) {
         Result result = new Result();
-        if (orderDao.updateOrder(orderId) == 1) {
+        if (trips.getTicketNum() < 1) {
+            result.setData(false);
+            result.setMsg("支付失败，票已卖完");
+            result.setStateCode(400);
+        }else if (orderDao.updateOrder(orderId) == 1) {
             result.setStateCode(200);
             result.setMsg("支付成功");
             result.setData(true);
