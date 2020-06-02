@@ -1,11 +1,6 @@
 package com.agile.agiletest.pojo;
 
 
-/**
- *查询订单信息
- * @author 41688
- * @version 0.1
- * */
 public class Order {
     private int id;
     private int carInfoId;

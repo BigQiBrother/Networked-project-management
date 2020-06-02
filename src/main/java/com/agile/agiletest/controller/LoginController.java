@@ -9,11 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * login function
- * @author wangchang
- * @version 0.1
- */
+
 @RestController
 @CrossOrigin
 public class LoginController {

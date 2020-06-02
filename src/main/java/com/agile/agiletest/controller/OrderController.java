@@ -19,11 +19,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    /**
-     *get all order
-     * @author 41688
-     * @return
-     * */
+
     @PostMapping("/getorder")
     @DataSource(DataSourceNames.TWO)
     public Result getOrder(@RequestBody JSONObject jsonObject){
@@ -33,11 +29,7 @@ public class OrderController {
         return result;
     }
 
-    /**
-     * change order
-     * @author 41688
-     * @return
-     * */
+
     @PostMapping("/changeorder")
     @DataSource(DataSourceNames.ONE)
     public Result changeOrder(@RequestBody JSONObject jsonObject){

@@ -9,10 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
-/**
- * @author wangchang
- * @version 0.1
- */
+
 @Service
 public class LoginServiceImpl implements LoginService {
 

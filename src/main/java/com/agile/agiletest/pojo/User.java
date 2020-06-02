@@ -1,12 +1,6 @@
 package com.agile.agiletest.pojo;
 
 
-/**
- * 用户注册信息pojo
- * 用于存储用户账号信息
- * @author wangchang
- * @version 0.1
- */
 public class User {
     private int id;
     private int personId;
