@@ -5,7 +5,7 @@
 技术栈：后端Springboot + Mybatis + Maven包管理 
 	前端：原生html + js + css + jquery
 
-JKD版本：1.8
+JDK版本：1.8
 
 mysql版本：8
 
